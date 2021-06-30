@@ -34,6 +34,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @mixin \Eloquent
  * @property-read \App\User $user
  */
+
 class Topic extends Model
 {
     /**

@@ -56,7 +56,20 @@ services:
         volumes:
             - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}      
         working_dir: ${APP_PATH_CONTAINER}
-        command: composer install          
+        command: composer install
+        
+    node:
+        container_name: ${PROJECT_NAME}-node
+        image: "node:14"
+        user: "node"
+        tty: true
+        environment:
+            - NODE_ENV=dev
+        working_dir: ${APP_PATH_CONTAINER}
+        volumes:
+            - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+        expose:
+            - "8081"
 
 volumes:
     databases:

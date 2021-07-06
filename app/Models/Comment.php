@@ -44,7 +44,7 @@ class Comment extends Model
     public function topic()
     {
         //Тема комментария (Топик)
-        return $this->belongsTo(Topic::class);
+        return $this->belongsTo('App\Models\Topic', 'topic_id');
     }
 
     /**
@@ -55,6 +55,6 @@ class Comment extends Model
     public function user()
     {
         //Автор комментария
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User', 'user_id');
     }
 }

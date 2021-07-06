@@ -2,22 +2,24 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Topic;
+use App\Models\Comment;
 use App\User;
+use App\Models\Topic;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use App\Admin\Selectable\Users;
+use App\Admin\Selectable\Topics;
 
-class TopicController extends AdminController
+class CommentController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = 'Topic';
+    protected $title = 'Comment';
 
     /**
      * Make a grid builder.
@@ -26,17 +28,21 @@ class TopicController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Topic());
+        $grid = new Grid(new Comment());
 
         $grid->column('id', __('Id'));
-        $grid->column('title', __('Заголовок'));
-        $grid->column('user.name', __('Автор'));
-        $grid->column('slug', __('Слаг'));
+        $grid->column('topic.title', __('Тема'));
         $grid->column('is_published', __('Опубликован?'))->bool();
         $grid->column('published_at', __('Дата публикации'));
+        $grid->column('deleted_at', __('Дата удаления'));
         $grid->column('created_at', __('Дата создания'));
         $grid->column('updated_at', __('Дата обновления'));
-        $grid->column('deleted_at', __('Дата удаления'));
+
+        $grid->filter(function($filter){
+
+            $filter->ilike('topic.title', 'Тема');
+        
+        });
 
         return $grid;
     }
@@ -49,11 +55,17 @@ class TopicController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(Topic::findOrFail($id));
+        $show = new Show(Comment::findOrFail($id));
 
         $show->field('id', __('Id'));
-        $show->field('title', __('Заголовок'));
-        $show->field('description', __('Описание'));
+        $show->field('user.name', __('User id'));
+        $show->field('topic.title', __('Topic id'));
+        $show->field('content', __('Content'));
+        $show->field('is_published', __('Is published'));
+        $show->field('published_at', __('Published at'));
+        $show->field('deleted_at', __('Deleted at'));
+        $show->field('created_at', __('Created at'));
+        $show->field('updated_at', __('Updated at'));
         $show->user('Информация об авторе', function ($user) {
             $user->setResource('/admin/users');
         
@@ -61,13 +73,6 @@ class TopicController extends AdminController
             $user->name();
             $user->email();
         });
-        $show->field('user.name', __('Автор'));
-        $show->field('slug', __('Слаг'));
-        $show->field('is_published', __('Опубликован?'));
-        $show->field('published_at', __('Дата публикации'));
-        $show->field('created_at', __('Дата создания'));
-        $show->field('updated_at', __('Дата обновления'));
-        $show->field('deleted_at', __('Дата удаления'));
 
         return $show;
     }
@@ -79,13 +84,12 @@ class TopicController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new Topic());
+        $form = new Form(new Comment());
 
-        $form->text('title', __('Заголовок'));
-        $form->textarea('description', __('Описание'));
-        $form->text('slug', __('Слаг'));
-        $form->switch('is_published', __('Опубликован?'));
-        $form->datetime('published_at', __('Дата публикации'))->default(date('Y-m-d H:i:s'));
+        $form->belongsTo('topic_id', Topics::class,'Тема');
+        $form->textarea('content', __('Content'));
+        $form->switch('is_published', __('Is published'));
+        $form->datetime('published_at', __('Published at'))->default(date('Y-m-d H:i:s'));
         $form->belongsTo('user_id', Users::class,'Автор');
 
         return $form;

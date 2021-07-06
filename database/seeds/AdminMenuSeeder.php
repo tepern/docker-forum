@@ -31,6 +31,7 @@ class AdminMenuSeeder extends Seeder
         $this->createDefaultMenu();
         $this->createCommentMenu($this->mainAdminRole);
         $this->createTopicMenu($this->mainAdminRole);
+        $this->createUserMenu($this->mainAdminRole);
     }
 
     /**
@@ -65,6 +66,26 @@ class AdminMenuSeeder extends Seeder
             'title'     => 'Темы',
             'icon'      => 'fa-star',
             'uri'       => 'topics',
+        ]);
+
+        $menu->roles()->detach($role);
+        $menu->roles()->detach($this->mainAdminRole);
+        $menu->roles()->attach($role);
+        $menu->roles()->attach($this->mainAdminRole);
+    }
+
+    /**
+     * @param Role $role
+     * @return void
+     */
+    private function createUserMenu(Role $role): void
+    {
+        $menu = Menu::create([
+            'parent_id' => 0,
+            'order'     => 130,
+            'title'     => 'Пользователи',
+            'icon'      => 'fa-user-circle',
+            'uri'       => 'users',
         ]);
 
         $menu->roles()->detach($role);

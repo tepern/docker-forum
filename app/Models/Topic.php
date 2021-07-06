@@ -45,6 +45,6 @@ class Topic extends Model
     public function user()
     {
         //Автор темы
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User', 'user_id');
     }
 }

@@ -8,9 +8,23 @@ use Encore\Admin\Grid\Selectable;
 
 class Topics extends Selectable
 {
+    /**
+     * Model of list for select.
+     *
+     * @var string
+     */
     public $model = Topic::class;
-    protected $perPage = 9;
 
+    /**
+     * Data of list. Default 10.
+     *
+     * @var integer
+     */
+    protected $perPage = 9;
+    
+    /**
+     * @return Grid
+     */
     public function make()
     {
         $this->column('id');

@@ -37,6 +37,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Topic extends Model
 {
+    use SoftDeletes;
+
+    protected $fillable = [
+        'title',
+        'slug',
+        'description',
+        'user_id'
+    ];
+
     /**
      * Автор темы.
      * 

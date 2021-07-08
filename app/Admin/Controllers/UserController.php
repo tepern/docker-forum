@@ -68,6 +68,7 @@ class UserController extends AdminController
         $form->text('name', __('Имя'));
         $form->email('email', __('Email'));
         $form->datetime('email_verified_at', __('Дата подтверждения Email'))->default(date('Y-m-d H:i:s'));
+        $form->password('password', __('Пароль'));
 
         return $form;
     }

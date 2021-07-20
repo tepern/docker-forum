@@ -24,10 +24,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 $groupData = [
     'namespace' => '\App\Http\Controllers\Forum',
     'prefix' => 'forum',
+    'before' => 'auth'
 ];
 Route::group($groupData, function() {
     //Topic
-    $methods = ['index', 'show', 'store', 'update', 'create',];
+    $methodsAuth = [ 'store', 'create',];
+    $methods = ['index', 'show'];
+    Route::resource('topic','TopicController')->only($methodsAuth)->names('forum.topic')->middleware('auth');
     Route::resource('topic','TopicController')->only($methods)->names('forum.topic');
 
     //BlogPost

@@ -8,8 +8,7 @@
                     <a class="btn btn-primary" href="{{ route('forum.topic.create') }}">Добавить</a>
                 </nav>
             </div>    
-            <div class="card">
-                <div class="card-body">
+            <div class="col-md-12">
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -31,7 +30,6 @@
                         </tr>
                     @endforeach    
                 </table>
-                </div>
             </div>
         </div>
         @if($paginatorTopic->total() > $paginatorTopic->count())

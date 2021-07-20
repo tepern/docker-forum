@@ -15,7 +15,7 @@
                             <a class="nav-link active" data-toggle="tab" href="#maindata" role="tab">Комментарии</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#info" role="tab">Основные данные</a>
+                            <a class="nav-link" data-toggle="tab" href="#info" role="tab">Информация о теме</a>
                         </li>
                     </ul>
                     <br>

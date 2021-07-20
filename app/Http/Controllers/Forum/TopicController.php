@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Forum;
 
 use App\Models\Topic;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ForumTopicCreateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class TopicController extends Controller
 {
@@ -36,21 +38,21 @@ class TopicController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ForumTopicCreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ForumTopicCreateRequest $request)
     {
         $data = $request->input();
         if (empty($data['slug'])) {
             $data['slug'] = Str::slug($data['title']);
         }
-        $data['user_id'] = 1;
+        $data['user_id'] = Auth::id();
 
         $topic = new Topic($data);
         //dd($item);
         $topic->save();
-
+        
         if ($topic) {
             return redirect()->route('forum.topic.show', [$topic->id])
             ->with(['success' => 'Успешно сохранено']);

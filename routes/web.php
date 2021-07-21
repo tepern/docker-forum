@@ -30,11 +30,13 @@ Route::group($groupData, function() {
     //Topic
     $methodsAuth = [ 'store', 'create',];
     $methods = ['index', 'show'];
+    $methodComment = [ 'store', 'create', 'edit', 'update', 'destroy', 'show'];
     Route::resource('topic','TopicController')->only($methodsAuth)->names('forum.topic')->middleware('auth');
     Route::resource('topic','TopicController')->only($methods)->names('forum.topic');
 
-    //BlogPost
-    Route::resource('posts', 'PostController')
-        ->except(['show'])
-        ->names('blog.admin.posts');
+    //Comment
+    Route::resource('comment', 'CommentController')
+        ->except(['index'])
+        ->names('forum.comment')
+        ->middleware('auth');
 });

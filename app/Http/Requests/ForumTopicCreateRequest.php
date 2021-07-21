@@ -4,6 +4,12 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @property string $title
+* @property string $slug
+* @property string $description
+*/
+
 class ForumTopicCreateRequest extends FormRequest
 {
     /**

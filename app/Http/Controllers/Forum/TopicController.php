@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Forum;
 
 use App\Models\Topic;
+use App\Models\Comment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ForumTopicCreateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Access\Response;
 
 class TopicController extends Controller
 {
@@ -71,10 +73,11 @@ class TopicController extends Controller
     public function show($id)
     {
         $topic = Topic::findOrFail($id);
-        //$commentList = Comment::where('topic_id', $id);
-
+        $commentList = Comment::where([['topic_id', $id], ['is_published', true],
+        ])->get();
+        
         return view('forum.topic.show',
-            compact('topic'));
+            compact('topic', 'commentList'));
     }
 
     /**

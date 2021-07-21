@@ -20,7 +20,21 @@
                     </ul>
                     <br>
                     <div class="tab-content">
-                        <div class="tab-pane active" id="maindata" role="tabpanel"></div>
+                        <div class="tab-pane active" id="maindata" role="tabpanel">
+                            <table class="table table-hover">
+                                @foreach($commentList as $comment)
+                                    @php /** @var \App\Models\Comment $comment */ @endphp
+                                <tr>
+                                    <th rowspan="2">{{ $comment->user->name }}</th>
+                                    <th>{{ $comment->published_at }}</th>
+                                    <th># {{ $comment->id }}</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">{{ $comment->content }}</td>
+                                </tr>
+                                @endforeach
+                            </table>    
+                        </div>
                         <div class="tab-pane" id="info" role="tabpanel">
                             <div class="form-group">
                                 <p>Идентификатор</p>

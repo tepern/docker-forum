@@ -6,6 +6,7 @@ use App\Models\Topic;
 use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ForumCommentRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
@@ -19,11 +20,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $paginatorComment = Comment::where('is_published', true)
-                                     ->groupBy('topic_id')
-                                     ->paginate(10);
-
-        return view('forum.comment.index', compact('paginatorComment'));
+        //
     }
 
     /**
@@ -43,15 +40,15 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\ForumCommentRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ForumCommentRequest $request)
     {
         $data = $request->input();
         
         $data['user_id'] = Auth::id();
-        $data['topic_id'] = $request->input('topic_id');
+        //$data['topic_id'] = $request->input('topic_id');
 
         $comment = new Comment($data);
         //dd($item);
@@ -100,11 +97,11 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\ForumCommentRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ForumCommentRequest $request, $id)
     {
         $comment = Comment::find($id);
         //Use Policy

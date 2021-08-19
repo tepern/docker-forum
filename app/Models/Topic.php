@@ -56,4 +56,15 @@ class Topic extends Model
         //Автор темы
         return $this->belongsTo('App\User', 'user_id');
     }
+
+    /**
+     * Комментарии темы.
+     * 
+     * @return \Illumimate\Database\Eloquent\Relations\HasMany\
+     */
+    public function comments()
+    {
+        //Комментарии темы
+        return $this->hasMany(Comment::class);
+    }
 }

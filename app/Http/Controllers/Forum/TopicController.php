@@ -75,6 +75,8 @@ class TopicController extends Controller
         $topic = Topic::findOrFail($id);
         $commentList = Comment::where([['topic_id', $id], ['is_published', true],
         ])->get();
+
+        Event::fire('topic.view', $topic);
         
         return view('forum.topic.show',
             compact('topic', 'commentList'));

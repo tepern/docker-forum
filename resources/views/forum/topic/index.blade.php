@@ -16,6 +16,7 @@
                         <tr>
                             <th>#</th>
                             <th>Тема</th>
+                            <th>Ответов</th>
                             <th>Автор</th>
                         </tr>
                     </thead>
@@ -27,7 +28,10 @@
                             <a href="{{ route('forum.topic.show', $topic->id) }}">{{ $topic->title }}</a>
                             </td>
                             <td>
-                               {{ $topic->user_id }}
+                               {{ $topic->comments->count() }}
+                            </td>
+                            <td>
+                               {{ $topic->user->name }}
                             </td>
                         </tr>
                     @endforeach    

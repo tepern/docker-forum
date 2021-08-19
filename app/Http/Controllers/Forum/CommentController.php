@@ -20,7 +20,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        return redirect()->route('forum.topic.index');
     }
 
     /**
@@ -140,6 +140,20 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $comment = Comment::find($id);
+        
+        //Софт удаление - остается в бд
+        $result = Comment::destroy($id);
+
+        //полное удаление из бд
+        //$result = Comment::find($id)->forceDelete();
+         
+        if ($result) {
+            return redirect()
+                ->route('forum.topic.show', $comment->topic_id)
+                ->with(['success' => "Запись c id[$id] удалена"]);
+        } else {
+            return back()->withErrors(['msg' => 'Ошибка удаления']);
+        }
     }
 }

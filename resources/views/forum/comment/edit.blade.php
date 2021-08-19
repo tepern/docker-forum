@@ -45,4 +45,25 @@
             </div>
         </div>
     </form>
+    @if($comment->exists)
+    <div class="container">
+        <br>
+        <form method="POST" action="{{ route('forum.comment.destroy', $comment->id) }}">
+            @method('DELETE')
+            @csrf
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="container">
+                        <div class="card">
+                            <div class="card-body ml-auto">
+                                <button type="submit" class="btn btn-outline-secondary">Удалить</button>
+                            </div>
+                        </div>
+                    </div>    
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </form>
+    </div>     
+    @endif
 @endsection

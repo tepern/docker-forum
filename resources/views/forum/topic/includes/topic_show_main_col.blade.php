@@ -30,8 +30,10 @@
                                     <th>
                                         # {{ $comment->id }}
                                         @if (Auth::id() == $comment->user_id)
-                                            <a href="{{ route('forum.comment.edit', $comment->id) }}">Edit</a>
-                                        @endif    
+                                            <div class="float-right">
+                                                <a class="btn btn-outline-primary" href="{{ route('forum.comment.edit', $comment->id) }}">Edit</a>
+                                            </div>
+                                        @endif
                                     </th>
                                 </tr>
                                 <tr>

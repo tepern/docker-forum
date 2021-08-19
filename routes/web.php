@@ -36,7 +36,6 @@ Route::group($groupData, function() {
 
     //Comment
     Route::resource('comment', 'CommentController')
-        ->except(['index'])
         ->names('forum.comment')
         ->middleware('auth');
 });

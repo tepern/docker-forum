@@ -32,15 +32,17 @@ class CommentController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('topic.title', __('Тема'));
-        $grid->column('is_published', __('Опубликован?'))->bool();
-        $grid->column('published_at', __('Дата публикации'));
-        $grid->column('deleted_at', __('Дата удаления'));
-        $grid->column('created_at', __('Дата создания'));
+        $grid->column('is_published', __('Опубликован?'))->bool()->sortable();
+        $grid->column('published_at', __('Дата публикации'))->sortable();
+        $grid->column('user.name', __('Автор'));
+        //$grid->column('deleted_at', __('Дата удаления'));
+        //$grid->column('created_at', __('Дата создания'));
         $grid->column('updated_at', __('Дата обновления'));
 
         $grid->filter(function($filter){
 
             $filter->ilike('topic.title', 'Тема');
+            $filter->ilike('user.name', 'Тема');
         
         });
 

@@ -32,12 +32,14 @@
             </div>
         @endif
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-11 col-xs-12">
                 @include('forum.topic.includes.topic_show_main_col')
             </div>
+            {{-- 
             <div class="col-md-3">
                 @include('forum.topic.includes.topic_show_add_col')
             </div>
+            --}}
         </div>
     </div>
 @endsection

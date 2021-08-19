@@ -20,7 +20,7 @@ class TopicController extends Controller
      */
     public function index()
     {
-        $paginatorTopic = Topic::paginate(10);
+        $paginatorTopic = Topic::where('is_published', true)->paginate(10);
 
         return view('forum.topic.index', compact('paginatorTopic'));
     }
@@ -76,7 +76,7 @@ class TopicController extends Controller
         $commentList = Comment::where([['topic_id', $id], ['is_published', true],
         ])->get();
 
-        Event::fire('topic.view', $topic);
+        event('topicHasViewed', $topic);
         
         return view('forum.topic.show',
             compact('topic', 'commentList'));

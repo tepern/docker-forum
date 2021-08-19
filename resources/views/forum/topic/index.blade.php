@@ -17,6 +17,7 @@
                             <th>#</th>
                             <th>Тема</th>
                             <th>Ответов</th>
+                            <th>Просмотров</th>
                             <th>Автор</th>
                         </tr>
                     </thead>
@@ -29,6 +30,9 @@
                             </td>
                             <td>
                                {{ $topic->comments->count() }}
+                            </td>
+                            <td>
+                               {{ $topic->view_count }}
                             </td>
                             <td>
                                {{ $topic->user->name }}

@@ -1,4 +1,4 @@
-FROM composer:latest AS composer
+FROM composer:1.10 AS composer
 FROM php:7.2-fpm
 
 RUN apt-get update && \

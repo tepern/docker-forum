@@ -2,6 +2,12 @@
 
 @section('content')
     <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('forum.topic.index') }}">Forum</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Topics</li>
+            </ol>
+        </nav>
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
@@ -11,35 +17,37 @@
                 </nav>
             </div>    
             <div class="col-md-12">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Тема</th>
-                            <th>Ответов</th>
-                            <th>Просмотров</th>
-                            <th>Автор</th>
-                        </tr>
-                    </thead>
-                    @foreach($paginatorTopic as $topic)
-                        @php /** @var \App\Models\Topic $topic */ @endphp
-                        <tr>
-                            <td>{{ $topic->id }}</td>
-                            <td>
-                            <a href="{{ route('forum.topic.show', $topic->id) }}">{{ $topic->title }}</a>
-                            </td>
-                            <td>
-                               {{ $topic->comments->count() }}
-                            </td>
-                            <td>
-                               {{ $topic->view_count }}
-                            </td>
-                            <td>
-                               {{ $topic->user->name }}
-                            </td>
-                        </tr>
-                    @endforeach    
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Тема</th>
+                                <th>Ответов</th>
+                                <th>Просмотров</th>
+                                <th>Автор</th>
+                            </tr>
+                        </thead>
+                        @foreach($paginatorTopic as $topic)
+                            @php /** @var \App\Models\Topic $topic */ @endphp
+                            <tr>
+                                <td>{{ $topic->id }}</td>
+                                <td>
+                                <a href="{{ route('forum.topic.show', $topic->slug) }}">{{ $topic->title }}</a>
+                                </td>
+                                <td>
+                                {{ $topic->comments->count() }}
+                                </td>
+                                <td>
+                                {{ $topic->view_count }}
+                                </td>
+                                <td>
+                                {{ $topic->user->name }}
+                                </td>
+                            </tr>
+                        @endforeach    
+                    </table>
+                </div>    
             </div>
         </div>
         @if($paginatorTopic->total() > $paginatorTopic->count())

@@ -52,7 +52,7 @@ class TopicController extends Controller
         $data['user_id'] = Auth::id();
 
         $topic = new Topic($data);
-        //dd($item);
+       
         $topic->save();
         
         if ($topic) {
@@ -72,8 +72,8 @@ class TopicController extends Controller
      */
     public function show($id)
     {
-        $topic = Topic::findOrFail($id);
-        $commentList = Comment::where([['topic_id', $id], ['is_published', true],
+        $topic = Topic::where('slug', '=', $id)->firstOrFail();
+        $commentList = Comment::where([['topic_id', $topic->id], ['is_published', true],
         ])->get();
 
         event('topicHasViewed', $topic);

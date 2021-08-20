@@ -4,33 +4,13 @@
     @php /** @var \App\Models\Topic $topic */
     @endphp
     <div class="container">
-        @php
-        /** @var \Illuminate\Support\ViewErrorBag $errors */
-        @endphp
-        @if($errors->any())
-            <div class="row justify-content-center">
-                <div class="col-md-11">
-                    <div class="alert alert-danger" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">x</span>
-                            {{ $errors->first() }}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        @endif
-        @if(session('success'))
-            <div class="row justify-content-center">
-                <div class="row-md-11">
-                    <div class="alert alert-success" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">x</span>
-                            {{ session()->get('success') }}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        @endif
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('forum.topic.index') }}">Forum</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('forum.topic.index') }}">Topics</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ $topic->title }}</li>
+            </ol>
+        </nav>
         <div class="row justify-content-center">
             <div class="col-md-11 col-xs-12">
                 @include('forum.topic.includes.topic_show_main_col')

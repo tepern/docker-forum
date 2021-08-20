@@ -15,6 +15,7 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    <a class="btn btn-link" href="{{ route('forum.topic.index') }}">Forum</a>
                 </div>
             </div>
         </div>

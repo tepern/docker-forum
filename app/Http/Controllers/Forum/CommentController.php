@@ -33,6 +33,7 @@ class CommentController extends Controller
     {
         $comment = new Comment();
         $comment->topic_id = $request->input('topic_id'); 
+        //$topic = Topic::select('id', 'title')->where('id', '=', )
         
         return view('forum.comment.create', compact('comment'));
     }
@@ -61,7 +62,7 @@ class CommentController extends Controller
         }
         
         if ($comment) {
-            return redirect()->route('forum.topic.show', [$comment->topic_id])
+            return redirect()->route('forum.topic.show', [$comment->topic->slug])
             ->with(['success' => 'Успешно сохранено']);
         } else {
             return back()->withErrors(['msg' => 'Ошибка сохранения'])
@@ -123,7 +124,7 @@ class CommentController extends Controller
 
         if ($result) {
             return redirect()
-                ->route('forum.topic.show', $comment->topic_id)
+                ->route('forum.topic.show', $comment->topic->slug)
                 ->with(['success' => 'Успешно сохранено']);
         } else {
             return back()
@@ -150,7 +151,7 @@ class CommentController extends Controller
          
         if ($result) {
             return redirect()
-                ->route('forum.topic.show', $comment->topic_id)
+                ->route('forum.topic.show', $comment->topic->slug)
                 ->with(['success' => "Запись c id[$id] удалена"]);
         } else {
             return back()->withErrors(['msg' => 'Ошибка удаления']);

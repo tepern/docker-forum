@@ -21,24 +21,26 @@
                     <br>
                     <div class="tab-content">
                         <div class="tab-pane active" id="maindata" role="tabpanel">
-                            <table class="table table-hover">
-                                @foreach($commentList as $comment)
+                            <table class="table border">
+                                @foreach ($commentList as $comment)
                                     @php /** @var \App\Models\Comment $comment */ @endphp
-                                <tr>
-                                    <th rowspan="2">{{ $comment->user->name }}</th>
-                                    <th>{{ $comment->published_at }}</th>
-                                    <th>
-                                        # {{ $comment->id }}
-                                        @if (Auth::id() == $comment->user_id)
-                                            <div class="float-right">
-                                                <a class="btn btn-outline-primary" href="{{ route('forum.comment.edit', $comment->id) }}">Edit</a>
-                                            </div>
-                                        @endif
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">{{ $comment->content }}</td>
-                                </tr>
+                                        @if ($comment->is_published || Auth::id() == $comment->user_id)
+                                            <tr>
+                                                <th rowspan="2" class="border border-warning">{{ $comment->user->name }}</th>
+                                                <th class="table-warning">{{ $comment->published_at }}</th>
+                                                <th class="table-warning">
+                                                    # {{ $comment->id }}
+                                                    @if (Auth::id() == $comment->user_id)
+                                                        <div class="float-right">
+                                                            <a class="btn btn-outline-primary" href="{{ route('forum.comment.edit', $comment->id) }}">Edit</a>
+                                                        </div>
+                                                    @endif
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">{{ $comment->content }}</td>
+                                            </tr>
+                                        @endif 
                                 @endforeach
                             </table>    
                         </div>

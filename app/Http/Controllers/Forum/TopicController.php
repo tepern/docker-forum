@@ -73,8 +73,7 @@ class TopicController extends Controller
     public function show($id)
     {
         $topic = Topic::where('slug', '=', $id)->firstOrFail();
-        $commentList = Comment::where([['topic_id', $topic->id], ['is_published', true],
-        ])->get();
+        $commentList = Comment::where('topic_id', $topic->id)->get();
 
         event('topicHasViewed', $topic);
         

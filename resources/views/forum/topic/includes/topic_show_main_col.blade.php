@@ -38,27 +38,53 @@
                                                 </th>
                                             </tr>
                                             <tr>
-                                                <td colspan="2">{{ $comment->content }}</td>
+                                                <td colspan="2">{!! $comment->content !!}</td>
                                             </tr>
                                         @endif 
                                 @endforeach
                             </table>    
                         </div>
                         <div class="tab-pane" id="info" role="tabpanel">
-                            <div class="form-group">
-                                <p>Идентификатор</p>
-                                <p>{{ $topic->slug }}</p>
-                            </div>
-                            <div class="form-group">
-                                <p>Автор</p>
-                                <p>{{ $topic->user->name }}</p>             
-                            </div>
-                            <div class="form-group">
-                                <p>Описание</p>
-                                <div>
-                                    {{ $topic->description }}
-                                </div>    
-                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <p>Идентификатор</p>
+                                                <p>{{ $topic->slug }}</p>
+                                            </div>
+                                            <div class="form-group">
+                                                <p>Автор</p>
+                                                <p>{{ $topic->user->name }}</p>             
+                                            </div>
+                                            <div class="form-group">
+                                                <p>Описание</p>
+                                                <div>
+                                                    {{ $topic->description }}
+                                                </div>    
+                                            </div>
+                                        </div> 
+                                    </div>       
+                                </div>
+                                <div class="col-md-6 col-xs-12">
+                                    <div class="card">
+                                        <div class="card-body">               
+                                            <div>
+                                                <p>Создано</p>
+                                                <p>{{ $topic->created_at }}</p>
+                                            </div>
+                                            <div>
+                                                <p>Изменено</p>
+                                                <p>{{ $topic->updated_at }}</p>
+                                            </div>
+                                            <div>
+                                                <p>Удалено</p>
+                                                <p>{{ $topic->deleted_at }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>       
                         </div>
                     </div>
                 </div>

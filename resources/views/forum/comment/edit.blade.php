@@ -64,6 +64,7 @@
                 <div class="col-md-3"></div>
             </div>
         </form>
+        <script src="{{ asset('/js/ckeditor/ckeditor.js') }}"></script>
     </div>     
     @endif
 @endsection

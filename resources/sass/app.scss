@@ -6,3 +6,10 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.table-warning {
+    
+    &_light {
+        background-color: #faffcc45;
+    }
+}

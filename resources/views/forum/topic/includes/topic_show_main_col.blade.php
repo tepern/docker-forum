@@ -27,8 +27,8 @@
                                         @if ($comment->is_published || Auth::id() == $comment->user_id)
                                             <tr>
                                                 <th rowspan="2" class="border border-warning">{{ $comment->user->name }}</th>
-                                                <th class="table-warning">{{ $comment->published_at }}</th>
-                                                <th class="table-warning">
+                                                <th class="table-warning table-warning_light">{{ $comment->published_at }}</th>
+                                                <th class="table-warning table-warning_light">
                                                     # {{ $comment->id }}
                                                     @if (Auth::id() == $comment->user_id)
                                                         <div class="float-right">

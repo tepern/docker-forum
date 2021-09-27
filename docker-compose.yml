@@ -11,6 +11,7 @@ services:
             - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
             - ./docker/php/config:/usr/local/etc/php/custom.d
         working_dir: ${APP_PATH_CONTAINER}
+        user: "1000:1000"
 
     web: 
         container_name: ${PROJECT_NAME}-web

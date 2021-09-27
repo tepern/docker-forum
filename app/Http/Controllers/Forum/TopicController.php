@@ -56,7 +56,7 @@ class TopicController extends Controller
         $topic->save();
         
         if ($topic) {
-            return redirect()->route('forum.topic.show', [$topic->id])
+            return redirect()->route('forum.topic.index')
             ->with(['success' => 'Успешно сохранено']);
         } else {
             return back()->withErrors(['msg' => 'Ошибка сохранения'])

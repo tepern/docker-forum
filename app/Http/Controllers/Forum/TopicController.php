@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Forum;
 
 use App\Models\Topic;
 use App\Models\Comment;
+use App\Http\Resources\TopicResource;
+use App\Http\Resources\TopicCollection;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ForumTopicCreateRequest;
 use Illuminate\Http\Request;
@@ -20,9 +22,12 @@ class TopicController extends Controller
      */
     public function index()
     {
-        $paginatorTopic = Topic::where('is_published', true)->paginate(10);
+        $paginatorTopic = Topic::where('is_published', true);
 
-        return view('forum.topic.index', compact('paginatorTopic'));
+        //return view('forum.topic.index', compact('paginatorTopic'));
+        return new TopicCollection(
+            $paginatorTopic->paginate(10)
+        );
     }
 
     /**
@@ -34,7 +39,8 @@ class TopicController extends Controller
     {
         $topic = new Topic();
 
-        return view('forum.topic.create', compact('topic'));
+        //return view('forum.topic.create', compact('topic'));
+        return new TopicResource($topic);
     }
 
     /**
@@ -56,11 +62,15 @@ class TopicController extends Controller
         $topic->save();
         
         if ($topic) {
-            return redirect()->route('forum.topic.index')
-            ->with(['success' => 'Успешно сохранено']);
+           // return redirect()->route('forum.topic.index')
+           // ->with(['success' => 'Успешно сохранено']);
+           return (new TopicResource($topic))
+           ->response()
+           ->json(['success' => 'Успешно сохранено']);
         } else {
-            return back()->withErrors(['msg' => 'Ошибка сохранения'])
-                ->withInput();
+            //return back()->withErrors(['msg' => 'Ошибка сохранения'])
+               // ->withInput();
+            return response()->withErrors(['msg' => 'Ошибка сохранения'])->withInput();
         }
     }
 

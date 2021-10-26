@@ -24,18 +24,21 @@ Route::get('/home', 'HomeController@index')->name('home');
 $groupData = [
     'namespace' => '\App\Http\Controllers\Forum',
     'prefix' => 'forum',
-    'before' => 'auth'
+    //'before' => 'auth'
 ];
 Route::group($groupData, function() {
     //Topic
     $methodsAuth = [ 'store', 'create',];
     $methods = ['index', 'show'];
     $methodComment = [ 'store', 'create', 'edit', 'update', 'destroy', 'show'];
-    Route::resource('topic','TopicController')->only($methodsAuth)->names('forum.topic')->middleware('auth');
-    Route::resource('topic','TopicController')->only($methods)->names('forum.topic');
+    Route::resource('topic','TopicController')
+    //->only($methodsAuth)
+    ->names('forum.topic');
+    //->middleware('auth');
+    //Route::resource('topic','TopicController')->only($methods)->names('forum.topic');
 
     //Comment
     Route::resource('comment', 'CommentController')
-        ->names('forum.comment')
-        ->middleware('auth');
+        ->names('forum.comment');
+        //->middleware('auth');
 });

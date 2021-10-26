@@ -39,8 +39,8 @@ class TopicController extends Controller
     {
         $topic = new Topic();
 
-        //return view('forum.topic.create', compact('topic'));
-        return new TopicResource($topic);
+        return view('forum.topic.create', compact('topic'));
+        //return new TopicResource($topic);
     }
 
     /**
@@ -55,23 +55,15 @@ class TopicController extends Controller
         if (empty($data['slug'])) {
             $data['slug'] = Str::slug($data['title']);
         }
-        $data['user_id'] = Auth::id();
+        //$data['user_id'] = Auth::id();
 
         $topic = new Topic($data);
+
+        //dd($topic);
        
         $topic->save();
         
-        if ($topic) {
-           // return redirect()->route('forum.topic.index')
-           // ->with(['success' => 'Успешно сохранено']);
-           return (new TopicResource($topic))
-           ->response()
-           ->json(['success' => 'Успешно сохранено']);
-        } else {
-            //return back()->withErrors(['msg' => 'Ошибка сохранения'])
-               // ->withInput();
-            return response()->withErrors(['msg' => 'Ошибка сохранения'])->withInput();
-        }
+        return new TopicResource($topic);
     }
 
     /**

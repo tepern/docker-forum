@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Forum;
 
+use Exception;
 use App\Models\Topic;
 use App\Models\Comment;
 use Illuminate\Http\Request;
@@ -10,6 +11,9 @@ use App\Http\Requests\ForumCommentRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use App\Http\Resources\CommentResource;
+use App\Http\Resources\CommentCollection;
+use Illuminate\Database\QueryException;
 
 class CommentController extends Controller
 {
@@ -29,13 +33,18 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create(Request  $request)
+    public function create(Request $request)
     {
         $comment = new Comment();
         $comment->topic_id = $request->input('topic_id'); 
         //$topic = Topic::select('id', 'title')->where('id', '=', )
         
-        return view('forum.comment.create', compact('comment'));
+        //return view('forum.comment.create', compact('comment'));
+
+        if (!$comment->topic_id) {
+            return response()->json(['msg' => "Тема не найдена"]);
+        }
+        return new CommentResource($comment);
     }
 
     /**
@@ -48,25 +57,21 @@ class CommentController extends Controller
     {
         $data = $request->input();
         
-        $data['user_id'] = Auth::id();
-        //$data['topic_id'] = $request->input('topic_id');
+        //$data['user_id'] = Auth::id();
+        $data['topic_id'] = $request->input('topic_id');
 
         $comment = new Comment($data);
         //dd($item);
         $comment->save();
 
-        if (empty($comment->topic_id)) {
-            return back()
-                ->withErrors(['msg' => "Тема не найдена"])
-                ->withInput();  
+        if (empty($data['topic_id'])) {
+            return response()->json(['msg' => "Тема не найдена"]);  
         }
         
         if ($comment) {
-            return redirect()->route('forum.topic.show', [$comment->topic->slug])
-            ->with(['success' => 'Успешно сохранено']);
+            return response()->json(['success' => 'Успешно сохранено']);
         } else {
-            return back()->withErrors(['msg' => 'Ошибка сохранения'])
-                ->withInput();
+            return response()->json(['msg' => 'Ошибка сохранения']);
         }
     }
 
@@ -91,8 +96,7 @@ class CommentController extends Controller
     {
         $comment = Comment::findOrFail($id);
 
-        return view('forum.comment.edit',
-            compact('comment'));
+        return new CommentResource($comment);
     }
 
     /**
@@ -106,12 +110,13 @@ class CommentController extends Controller
     {
         $comment = Comment::find($id);
         //Use Policy
-        $this->authorize('update', $comment);
+        //$this->authorize('update', $comment);
 
         if (empty($comment)) {
-            return back()
+            /*return back()
                 ->withErrors(['msg' => "Комментарий id=[{$id}] не найден"])
-                ->withInput();  
+                ->withInput(); */
+            return response()->json(['msg' => "Комментарий id=[{$id}] не найден"]); 
         }
 
         $data = $request->all();
@@ -120,16 +125,19 @@ class CommentController extends Controller
             $data['published_at'] = Carbon::now();
         }
 
-        $result = $comment->update($data);
+        $result = $comment->update($data->validated());
 
         if ($result) {
-            return redirect()
+            /*return redirect()
                 ->route('forum.topic.show', $comment->topic->slug)
-                ->with(['success' => 'Успешно сохранено']);
+                ->with(['success' => 'Успешно сохранено']);*/
+            return (new CommentResource($comment))->additional(['success' => 'Успешно сохранено']);    
+
         } else {
-            return back()
+            /*return back()
                 ->withErrors(['msg' => 'Ошибка сохранения'])
-                ->withInput();
+                ->withInput();*/ 
+            return (new CommentResource($comment))->additional(['msg' => 'Ошибка сохранения']);    
         }
     }
 

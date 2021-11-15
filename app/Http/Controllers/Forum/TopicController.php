@@ -39,8 +39,8 @@ class TopicController extends Controller
     {
         $topic = new Topic();
 
-        return view('forum.topic.create', compact('topic'));
-        //return new TopicResource($topic);
+        //return view('forum.topic.create', compact('topic'));
+        return new TopicResource($topic);
     }
 
     /**
@@ -79,8 +79,7 @@ class TopicController extends Controller
 
         event('topicHasViewed', $topic);
         
-        return view('forum.topic.show',
-            compact('topic', 'commentList'));
+        return new TopicResource($topic);
     }
 
     /**

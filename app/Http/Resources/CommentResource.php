@@ -3,10 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Request;
-use App\Http\Resources\CommentResource;
 
-class TopicResource extends JsonResource
+class CommentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,19 +12,14 @@ class TopicResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-
-    public function toArray($request): array
+    public function toArray($request)
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'description' => $this->description,
+            'content' => $this->content,
             'user_id' => $this->user_id,
-            //'user' => $this->user->name,
-            'commentList' => CommentResource::collection($this->comments),
-            'slug' => $this->slug,
+            'topic_id' => $this->topic_id,
             'is_published' => $this->is_published,
-            'view_count' => $this->view_count,
             'published_at' => $this->published_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

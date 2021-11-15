@@ -125,7 +125,7 @@ class CommentController extends Controller
             $data['published_at'] = Carbon::now();
         }
 
-        $result = $comment->update($data->validated());
+        $result = $comment->update($data);
 
         if ($result) {
             /*return redirect()
@@ -158,11 +158,7 @@ class CommentController extends Controller
         //$result = Comment::find($id)->forceDelete();
          
         if ($result) {
-            return redirect()
-                ->route('forum.topic.show', $comment->topic->slug)
-                ->with(['success' => "Запись c id[$id] удалена"]);
-        } else {
-            return back()->withErrors(['msg' => 'Ошибка удаления']);
-        }
+            return response()->noContent();
+        } 
     }
 }

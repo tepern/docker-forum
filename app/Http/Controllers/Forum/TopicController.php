@@ -24,7 +24,6 @@ class TopicController extends Controller
     {
         $paginatorTopic = Topic::where('is_published', true);
 
-        //return view('forum.topic.index', compact('paginatorTopic'));
         return new TopicCollection(
             $paginatorTopic->paginate(10)
         );
@@ -58,8 +57,6 @@ class TopicController extends Controller
         //$data['user_id'] = Auth::id();
 
         $topic = new Topic($data);
-
-        //dd($topic);
        
         $topic->save();
         

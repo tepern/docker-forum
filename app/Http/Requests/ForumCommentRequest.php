@@ -25,6 +25,8 @@ class ForumCommentRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_id' => 'required',
+            'topic_id' => 'required',
             'content' => 'required|min:5|max:2000',
         ];
     }

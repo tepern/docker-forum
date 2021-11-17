@@ -32,6 +32,7 @@ class ForumTopicCreateRequest extends FormRequest
     {
         return [
             'title' => 'required|min:5|max:200|unique:topics',
+            'user_id'  => 'required',
             'slug' => 'max:200|unique:topics',
             'description' => 'string|max:500|min:3',
         ];

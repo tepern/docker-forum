@@ -37,9 +37,6 @@ class CommentController extends Controller
     {
         $comment = new Comment();
         $comment->topic_id = $request->input('topic_id'); 
-        //$topic = Topic::select('id', 'title')->where('id', '=', )
-        
-        //return view('forum.comment.create', compact('comment'));
 
         if (!$comment->topic_id) {
             return response()->json(['msg' => "Тема не найдена"]);
@@ -61,7 +58,7 @@ class CommentController extends Controller
         $data['topic_id'] = $request->input('topic_id');
 
         $comment = new Comment($data);
-        //dd($item);
+        
         $comment->save();
 
         if (empty($data['topic_id'])) {
@@ -113,9 +110,6 @@ class CommentController extends Controller
         //$this->authorize('update', $comment);
 
         if (empty($comment)) {
-            /*return back()
-                ->withErrors(['msg' => "Комментарий id=[{$id}] не найден"])
-                ->withInput(); */
             return response()->json(['msg' => "Комментарий id=[{$id}] не найден"]); 
         }
 
@@ -128,15 +122,9 @@ class CommentController extends Controller
         $result = $comment->update($data);
 
         if ($result) {
-            /*return redirect()
-                ->route('forum.topic.show', $comment->topic->slug)
-                ->with(['success' => 'Успешно сохранено']);*/
             return (new CommentResource($comment))->additional(['success' => 'Успешно сохранено']);    
 
         } else {
-            /*return back()
-                ->withErrors(['msg' => 'Ошибка сохранения'])
-                ->withInput();*/ 
             return (new CommentResource($comment))->additional(['msg' => 'Ошибка сохранения']);    
         }
     }

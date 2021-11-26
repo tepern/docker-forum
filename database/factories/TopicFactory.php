@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 $factory->define(Topic::class, function (Faker $faker) use ($factory) {
     $user_id = $factory->create(User::class)->id;
-    $title = $faker->unique()->realText(rand(10, 20));
+    $title = $faker->unique()->realText(rand(10, 200));
     $isPublished = rand(1, 5) > 1;
     return [
         'title'        => $title,

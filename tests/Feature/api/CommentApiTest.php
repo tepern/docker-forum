@@ -29,19 +29,8 @@ class CommentApiTest extends TestCase
     public function testCreateComment()
     {
         $comment = factory(Comment::class)->make();
-        $this->postJson('/forum/comment', $comment->toArray())->assertStatus(200);
-
-        /*$news = factory(News::class)->make();
-        $this
-            ->json('POST', route('api.news.index'), $news->toArray())
-            ->assertStatus(201)
-            ->assertJson([
-                'data' => [
-                    'title'   => $news->title,
-                    'preview' => $news->preview,
-                    'content' => $news->content,
-                ]
-            ]);*/
+        $this->postJson('/forum/comment', $comment->toArray())->assertStatus(200)
+        ->assertJson(["success" => "Успешно сохранено"]);
     }
 
     /**
@@ -53,19 +42,14 @@ class CommentApiTest extends TestCase
     {
         $comment = factory(Comment::class)->create();
         $editedComment = factory(Comment::class)->make();
-        $this->json('PUT', route('forum.comment.update', ['comment' => $comment->id]), $editedComment->toArray())->assertStatus(200);
-
-        /*$news = factory(News::class)->make();
         $this
-            ->json('POST', route('api.news.index'), $news->toArray())
-            ->assertStatus(201)
+            ->json('PUT', route('forum.comment.update', ['comment' => $comment->id]), $editedComment->toArray())
+            ->assertStatus(200)
             ->assertJson([
                 'data' => [
-                    'title'   => $news->title,
-                    'preview' => $news->preview,
-                    'content' => $news->content,
-                ]
-            ]);*/
+                    'content' => $editedComment->content
+                ],
+                "success" => "Успешно сохранено"]);
     }
 
     /**
@@ -80,17 +64,5 @@ class CommentApiTest extends TestCase
         $this->json('DELETE', route('forum.comment.destroy', ['comment' => $comment->id]))->assertStatus(204);
 
         $this->json('GET', route('forum.comment.edit', ['comment' => $comment->id]))->assertStatus(404);
-
-        /*$news = factory(News::class)->make();
-        $this
-            ->json('POST', route('api.news.index'), $news->toArray())
-            ->assertStatus(201)
-            ->assertJson([
-                'data' => [
-                    'title'   => $news->title,
-                    'preview' => $news->preview,
-                    'content' => $news->content,
-                ]
-            ]);*/
     }
 }

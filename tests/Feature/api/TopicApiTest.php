@@ -19,18 +19,26 @@ class TopicApiTest extends TestCase
         $response = $this->getJson('/forum/topic');
 
         $response->assertStatus(200);
-
-        /*$news = factory(News::class)->make();
-        $this
-            ->json('POST', route('api.news.index'), $news->toArray())
-            ->assertStatus(201)
-            ->assertJson([
-                'data' => [
-                    'title'   => $news->title,
-                    'preview' => $news->preview,
-                    'content' => $news->content,
+        
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'user_id',
+                    'user',
+                    'updated_at',
+                    'created_at',
+                    'title',
+                    'description',
+                    'slug',
+                    'comment_list',
+                    'is_published',
+                    'view_count',
+                    'published_at',
+                    'deleted_at'
                 ]
-            ]);*/
+            ]
+        ]);
     }
 
     /**
@@ -41,19 +49,17 @@ class TopicApiTest extends TestCase
     public function testCreateTopic()
     {
         $topic = factory(Topic::class)->make();
-        $this->postJson('/forum/topic', $topic->toArray())->assertStatus(201);
-
-        /*$news = factory(News::class)->make();
-        $this
-            ->json('POST', route('api.news.index'), $news->toArray())
-            ->assertStatus(201)
-            ->assertJson([
+        $this->postJson('/forum/topic', $topic->toArray())
+             ->assertStatus(201)
+             ->assertJson([
                 'data' => [
-                    'title'   => $news->title,
-                    'preview' => $news->preview,
-                    'content' => $news->content,
+                    'title'   => $topic->title,
+                    'description' => $topic->description,
+                    'user_id' => $topic->user_id,
+                    'comment_list' => $topic->comment_list,
+                    'slug' => $topic->slug
                 ]
-            ]);*/
+            ]);
     }
 
     /**
@@ -65,18 +71,39 @@ class TopicApiTest extends TestCase
     {
         $topic = factory(Topic::class)->create();
         
-        $this->json('GET', route('forum.topic.show', ['topic' => $topic->slug]))->assertStatus(200);
-
-        /*$news = factory(News::class)->make();
-        $this
-            ->json('POST', route('api.news.index'), $news->toArray())
-            ->assertStatus(201)
-            ->assertJson([
+        $this->json('GET', route('forum.topic.show', ['topic' => $topic->slug]))
+             ->assertStatus(200)
+             ->assertJson([
                 'data' => [
-                    'title'   => $news->title,
-                    'preview' => $news->preview,
-                    'content' => $news->content,
+                    'id' => $topic->id,
+                    'title'   => $topic->title,
+                    'description' => $topic->description,
+                    'user_id' => $topic->user_id,
+                    'comment_list' => $topic->comment_list,
+                    'slug' => $topic->slug
                 ]
-            ]);*/
+             ])
+             ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'title',
+                    'description',
+                    'user_id',
+                    'user' => [
+                        'id',
+                        'name',
+                        'email'
+                    ],
+                    'comment_list' => [
+                        '*' => [
+                           'content',
+                           'user_id',
+                           'is_published'
+                        ]
+                    ],
+                    'slug',
+                    'view_count'
+                ]
+            ]);
     }
 }

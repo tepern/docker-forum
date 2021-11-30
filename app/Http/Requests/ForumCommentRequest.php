@@ -26,7 +26,7 @@ class ForumCommentRequest extends FormRequest
     {
         return [
             'user_id' => 'required',
-            'topic_id' => 'required',
+            'topic_id' => 'required|exists:topics,id',
             'content' => 'required|min:5|max:2000',
         ];
     }

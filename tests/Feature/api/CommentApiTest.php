@@ -31,6 +31,24 @@ class CommentApiTest extends TestCase
         $comment = factory(Comment::class)->make();
         $this->postJson('/forum/comment', $comment->toArray())->assertStatus(200)
         ->assertJson(["success" => "Успешно сохранено"]);
+
+        //некорректный id темы
+        $response = $this->postJson('/forum/comment', [
+            'topic_id'  => null,
+            'content' => 'test',
+            'user_id' => 1,
+        ]);
+        $response
+            ->assertStatus(422);
+
+        //некорректный id пользователя
+        $response = $this->postJson('/forum/comment', [
+            'topic_id'  => 1,
+            'content' => 'test',
+            'user_id' => null,
+        ]);
+        $response
+            ->assertStatus(422);    
     }
 
     /**
@@ -50,6 +68,35 @@ class CommentApiTest extends TestCase
                     'content' => $editedComment->content
                 ],
                 "success" => "Успешно сохранено"]);
+            
+        //некорректный id комментария
+        $response = $this->json('PUT', route('forum.comment.update', ['comment' => 1000000]), [
+            'topic_id'  => 1,
+            'content' => 'New test',
+            'user_id' => 1,
+        ]);
+        $response
+            ->assertJson([
+                'msg' => "Комментарий id=[1000000] не найден"
+            ]);
+
+        //некорректный id темы    
+        $response = $this->json('PUT', route('forum.comment.update', ['comment' => $comment->id]), [
+            'topic_id'  => null,
+            'content' => 'New test',
+            'user_id' => 1,
+        ]); 
+        $response
+            ->assertStatus(422);
+            
+        //некорректный id пользователя    
+        $response = $this->json('PUT', route('forum.comment.update', ['comment' => $comment->id]), [
+            'topic_id'  => 1,
+            'content' => 'New test',
+            'user_id' => null,
+        ]); 
+        $response
+            ->assertStatus(422);    
     }
 
     /**

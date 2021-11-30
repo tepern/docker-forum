@@ -60,6 +60,14 @@ class TopicApiTest extends TestCase
                     'slug' => $topic->slug
                 ]
             ]);
+        //некорректный id пользователя
+        $response = $this->postJson('/forum/topic', [
+            'title'  => 'test',
+            'description' => 'test',
+            'user_id' => null,
+        ]);
+        $response
+            ->assertStatus(422);    
     }
 
     /**
@@ -71,7 +79,7 @@ class TopicApiTest extends TestCase
     {
         $topic = factory(Topic::class)->create();
         
-        $this->json('GET', route('forum.topic.show', ['topic' => $topic->slug]))
+        $this->json('GET', route('forum.topic.show', ['topic' => $topic->id]))
              ->assertStatus(200)
              ->assertJson([
                 'data' => [
@@ -105,5 +113,9 @@ class TopicApiTest extends TestCase
                     'view_count'
                 ]
             ]);
+        //Некорректный id темы
+        $response = $this->json('GET', route('forum.topic.show', ['topic' => (int) $topic->id+10]));
+        $response
+            ->assertStatus(404);
     }
 }

@@ -60,27 +60,12 @@ class CommentController extends Controller
         $comment = new Comment($data);
         
         $comment->save();
-
-        if (empty($data['topic_id'])) {
-            return response()->json(['msg' => "Тема не найдена"]);  
-        }
         
         if ($comment) {
             return response()->json(['success' => 'Успешно сохранено']);
         } else {
             return response()->json(['msg' => 'Ошибка сохранения']);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**

@@ -21,6 +21,8 @@ git clone  https://github.com/tepern/docker-forum.git
 
 cd docker-forum
 
+Create .env from .env.example
+
 ## API
 
 git checkout forum-api
